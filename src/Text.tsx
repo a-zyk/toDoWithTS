@@ -4,10 +4,18 @@ const TextInput: React.FC<{ setToDoList: any }> = ({ setToDoList }) => {
   const [toDoText, setToDoText] = useState<string>("");
   const handleToDoSubmit = () => {
     if (!toDoText.length) return;
-    setToDoList((previousToDos: string[]) => [...previousToDos, toDoText]);
+    const toDo = {
+      text: toDoText,
+      done: false,
+    };
+    setToDoList((previousToDos: { text: string; done: boolean}[]) => {
+      const newToDos = [toDo, ...previousToDos];
+      localStorage.setItem("toDos", JSON.stringify(newToDos))
+      return newToDos
+    });
     setToDoText("");
-    console.log(toDoText);
   };
+
   return (
     <div className="flex gap-3 items-center justify-center mt-5">
       <input

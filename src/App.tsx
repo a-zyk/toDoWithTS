@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Text from "./Text";
 
 const deleteIcon = (
@@ -37,13 +37,31 @@ const doneIcon = (
 );
 
 const App: React.FC = () => {
-  const [toDoList, setToDoList] = useState<string[]>([]);
-  console.log(toDoList);
+  const [toDoList, setToDoList] = useState<{ text: string; done: boolean }[]>(
+    []
+  );
+
+  useEffect(() => {
+    const localToDos = localStorage.getItem("toDos");
+    const result = localToDos ? JSON.parse(localToDos) : undefined;
+    setToDoList(result);
+  }, []);
+
   const onDelete = (i: number) => {
     const newToDoList = toDoList.filter((item, index) => {
       return index !== i;
     });
     setToDoList(newToDoList);
+  };
+
+  const onDone = (i: number) => {
+    const doneToTrue = toDoList.map((item, index) => {
+      if (index === i) {
+        item.done = true;
+      }
+      return item;
+    });
+    setToDoList(doneToTrue);
   };
 
   return (
@@ -55,9 +73,10 @@ const App: React.FC = () => {
             className="flex items-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100"
             key={i}
           >
-            <span>{item}</span>
+            <span>{item.text}</span>
             <div className="flex flex-grow"></div>
-            <button>{doneIcon}</button>
+            <div>{item.done ? "y" : "n"}</div>
+            <button onClick={() => onDone(i)}>{doneIcon}</button>
             <button onClick={() => onDelete(i)}>{deleteIcon}</button>
           </div>
         ))}
