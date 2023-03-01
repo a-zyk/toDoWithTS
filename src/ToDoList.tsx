@@ -15,14 +15,14 @@ const deleteIcon = (
   </svg>
 );
 
-const doneIcon = (
+const doneIcon = (item: toDoItem) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    className="w-6 h-6"
+    className={`${item.done ? "text-green-600" : ""} w-6 h-6`}
   >
     <path
       strokeLinecap="round"
@@ -51,14 +51,13 @@ const ToDoList: React.FC<{
         .map((item, i) => (
           <div
             className={`${
-              item.done ? "bg-gray-300" : "hover:bg-gray-100"
+              item.done ? "bg-gray-200" : "hover:bg-gray-100"
             } flex w-2/5 items-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow`}
             key={i}
           >
             <span>{item.text}</span>
             <div className="flex flex-grow"></div>
-            <div>{item.done ? "y" : "n"}</div>
-            <button onClick={() => onDone(i)}>{doneIcon}</button>
+            <button onClick={() => onDone(i)}>{doneIcon(item)}</button>
             <button onClick={() => onDelete(i)}>{deleteIcon}</button>
           </div>
         ))}
