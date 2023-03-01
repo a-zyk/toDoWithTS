@@ -52,7 +52,7 @@ const ToDoList: React.FC<{
           <div
             className={`${
               item.done ? "bg-gray-200" : "hover:bg-gray-100"
-            } flex w-2/5 items-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow`}
+            } flex w-2/5 items-center max-w-sm p-6  border border-gray-200 rounded-lg shadow`}
             key={i}
           >
             <span>{item.text}</span>
